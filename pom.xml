@@ -54,16 +54,6 @@
 			<artifactId>camel-opentracing-starter</artifactId>
 			<version>2.23.1</version>
 		</dependency>
-		<!--<dependency>
-			<groupId>io.opentracing.contrib</groupId>
-			<artifactId>opentracing-agent</artifactId>
-			<version>0.4.0</version>
-		</dependency>-->
-		<dependency>
-			<groupId>io.jaegertracing</groupId>
-			<artifactId>jaeger-client</artifactId>
-			<version>0.34.0</version>
-		</dependency>
 		<dependency>
 			<groupId>io.opentracing.contrib</groupId>
 			<artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>

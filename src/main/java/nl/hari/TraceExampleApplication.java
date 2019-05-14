@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-//@CamelOpenTracing
+@CamelOpenTracing
 public class TraceExampleApplication {
 //	@EndpointInject(uri = "direct:testMsg")
 	private FluentProducerTemplate producer;
