@@ -1,0 +1,44 @@
+server:
+  port: 8080
+management:
+  endpoint:
+    camelroutecontroller:
+      enabled: true
+    restart:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: never
+      enabled: true
+    info:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+opentracing:
+  spring:
+    web:
+      skipPattern: "/api-docs.*|/actuator.*"
+  jaeger:
+    http-sender:
+      url: http://jaeger-collector-myproject.127.0.0.1.nip.io/api/traces
+    service-name: appointment-system
+    const-sampler:
+      decision: true
+    enable-b3-propagation: true
+    probabilistic-sampler:
+      sampling-rate: 0.1
+    enabled: true
+
+datasource:
+  name: test-YAML
+  sample: anotherData
