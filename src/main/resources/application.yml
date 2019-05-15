@@ -24,21 +24,6 @@ management:
       exposure:
         include: "*"
 
-opentracing:
-  spring:
-    web:
-      skipPattern: "/api-docs.*|/actuator.*"
-  jaeger:
-    http-sender:
-      url: http://jaeger-collector-myproject.127.0.0.1.nip.io/api/traces
-    service-name: appointment-system
-    const-sampler:
-      decision: true
-    enable-b3-propagation: true
-    probabilistic-sampler:
-      sampling-rate: 0.1
-    enabled: true
-
 datasource:
   name: test-YAML
-  sample: anotherData
+  sample: anotherDataa

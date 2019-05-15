@@ -16,8 +16,8 @@ public class SampleRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        //from("direct:testMsg")
-        from("timer:myTimer?repeatCount=1")
+        from("direct:testMsg")
+        //from("timer:myTimer?repeatCount=1")
                 .log("inside camel route")
                 .setBody(simple("${header.request_name} world :"+valFromYaml+"\n loading val from sample :"+valFromSample));
     }
