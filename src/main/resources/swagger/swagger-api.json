@@ -1,0 +1,108 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Bookstore",
+    "description": "A simple bookstore API"
+  },
+  "basePath": "/bookstore",
+  "paths": {
+    "/books": {
+      "get": {
+        "description": "Returns all the books from the system",
+        "operationId": "findBooks",
+        "parameters": [
+          {
+            "name": "book_isbn",
+            "in": "query",
+            "description": "isbn used to filter the result",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of books",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Book"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new book to the collection",
+        "operationId": "addBook",
+        "parameters": [
+          {
+            "name": "book",
+            "in": "body",
+            "description": "The Book JSON you want to post",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Book created successfully",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        }
+      }
+    },
+    "/books/{book_isbn}": {
+      "get": {
+        "description": "Returns all the books from the system",
+        "parameters": [
+          {
+            "name": "book_isbn",
+            "in": "path",
+            "description": "isbn of the book",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specific book based on isbn",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "properties": {
+        "book_isbn": {
+          "type": "string",
+          "description": "Unique identifier (ISBN) representing a specific book."
+        },
+        "book_title": {
+          "type": "string",
+          "description": "Title of the book."
+        },
+        "book_description": {
+          "type": "string",
+          "description": "Description of the book."
+        },
+        "book_price": {
+          "type": "number",
+          "description": "Price of the book."
+        },
+        "book_inventory": {
+          "type": "integer",
+          "description": "The inventory for the book."
+        }
+      }
+    }
+  }
+}
