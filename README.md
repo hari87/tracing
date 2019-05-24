@@ -1,4 +1,4 @@
-# tracing
+# Tracing
 ## Description
 This is an E2E example on how to use spring boot jaeger tracing for distributed microservices which is using spring and camel in the app. 
 #Usage
