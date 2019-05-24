@@ -1,0 +1,39 @@
+server:
+  port: 8080
+opentracing:
+  spring:
+    web:
+      skipPattern: "/api-docs.*|/actuator.*"
+  jaeger:
+    http-sender:
+      url: http://localhost:14268/api/traces
+    service-name: trace-server
+    const-sampler:
+      decision: true
+    enable-b3-propagation: true
+    probabilistic-sampler:
+      sampling-rate: 0.1
+    enabled: true
+management:
+  endpoint:
+    camelroutecontroller:
+      enabled: true
+    restart:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: never
+      enabled: true
+    info:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/trace-client/trace-client.iml" filepath="$PROJECT_DIR$/trace-client/trace-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trace-example.iml" filepath="$PROJECT_DIR$/trace-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trace-server/trace-server.iml" filepath="$PROJECT_DIR$/trace-server/trace-server.iml" />
+    </modules>
+  </component>
+</project>
