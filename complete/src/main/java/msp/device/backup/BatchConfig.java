@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import javax.sql.DataSource;
 
@@ -40,18 +42,30 @@ public class BatchConfig extends DefaultBatchConfigurer {
     public StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public FlatFileItemReader<CustomerIds> reader() {
+    public FlatFileItemReader<Customer> reader() {
         logger.info("inside file item reader");
-        return new FlatFileItemReaderBuilder<CustomerIds>()
+        return new FlatFileItemReaderBuilder<Customer>()
                 .name("personItemReader")
                 .resource(new ClassPathResource("customer-id.csv"))
                 .delimited()
                 .names(new String[]{"CUSTOMER_IDENTIFIER"})
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<CustomerIds>() {{
-                    setTargetType(CustomerIds.class);
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<Customer>() {{
+                    setTargetType(Customer.class);
                 }})
                 .build();
     }
+
+    /*@Bean
+    public JdbcCursorItemReader<Customer> reader() {
+        JdbcCursorItemReader<Customer> reader = new JdbcCursorItemReader<Customer>();
+        reader.setDataSource(dataSource());
+        reader.setSql("select * from Customer where creation_date like '27-NOV-19 02.21.37%'");
+        reader.setRowMapper(new BeanPropertyRowMapper<>(Customer.class));
+        reader.setVerifyCursorPosition(false);
+        return reader;
+    }*/
+
+
 
 
     @Bean
@@ -68,19 +82,19 @@ public class BatchConfig extends DefaultBatchConfigurer {
     }
 
     @Bean
-    public JdbcBatchItemWriter<CustomerIds> writer() {
+    public JdbcBatchItemWriter<Customer> writer() {
         logger.info("inside file JdbcbatchItemWriter ");
-        return new JdbcBatchItemWriterBuilder<CustomerIds>()
+        return new JdbcBatchItemWriterBuilder<Customer>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO customer (CUSTOMER_IDENTIFIER) VALUES (:CUSTOMER_IDENTIFIER)")
+                .sql("INSERT INTO customer (CUSTOMER_IDENTIFIER,CREATION_DATE,LAST_MODIFICATION_DATE,CREATION_USER,MODIFICATION_USER) VALUES (:CUSTOMER_IDENTIFIER,:CREATION_DATE,:LAST_MODIFICATION_DATE,:CREATION_USER,:MODIFICATION_USER)")
                 .dataSource(dataSource())
                 .build();
     }
 
     @Bean
-    public Step step1(JdbcBatchItemWriter<CustomerIds> writer) {
+    public Step step1(JdbcBatchItemWriter<Customer> writer) {
         return stepBuilderFactory.get("step1")
-                .<CustomerIds, CustomerIds> chunk(10)
+                .<Customer, Customer> chunk(10)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())

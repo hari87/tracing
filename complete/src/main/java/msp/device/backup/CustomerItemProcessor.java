@@ -6,12 +6,13 @@ import org.springframework.batch.item.ItemProcessor;
 
 import java.sql.Timestamp;
 
-public class CustomerItemProcessor implements ItemProcessor<CustomerIds, CustomerIds> {
+public class CustomerItemProcessor implements ItemProcessor<Customer, Customer> {
     Logger logger = LoggerFactory.getLogger(CustomerItemProcessor.class);
+    Timestamp currentTs = new Timestamp(System.currentTimeMillis());
 
     @Override
-    public CustomerIds process(CustomerIds customerIds) throws Exception {
+    public Customer process(Customer customerIds) throws Exception {
         logger.info("inside processor");
-        return customerIds;
+        return new Customer(customerIds.getCUSTOMER_IDENTIFIER(), currentTs,currentTs, "hrameshrao","hrameshrao");
     }
 }
